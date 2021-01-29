@@ -2,6 +2,7 @@ package routing
 
 import (
 	"github.com/gin-gonic/gin"
+	"os"
 )
 
 // Exporting constants to avoid hardcoding these all over, and ending up with a uppercase "POST" bug in the future.
@@ -10,10 +11,12 @@ const (
 	POST = "post"
 )
 
+
 func Build() *gin.Engine {
 	engine := gin.New()
 	engine.Use(gin.Logger())
 	engine.Use(gin.Recovery())
+	engine.Use(CORS())
 	return engine
 }
 
@@ -30,4 +33,22 @@ func AddRoute(engine *gin.Engine, path string, method string, fn gin.HandlerFunc
 	group := engine.Group("/")
 	setMethodHandler(method, path, fn, group)
 	return engine
+}
+
+func CORS() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		allowedOrigin := os.Getenv("ALLOWED_ORIGIN")
+		c.Writer.Header().Set("Access-Control-Allow-Origin", allowedOrigin)
+		c.Writer.Header().Set("Access-Control-Allow-Credentials", "true")
+		c.Writer.Header().Set("Access-Control-Allow-Headers", "Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization, accept, origin, Cache-Control, X-Requested-With")
+		c.Writer.Header().Set("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
+
+		// Handle browser preflight requests, where it asks for allowed origin.
+		if c.Request.Method == "OPTIONS" {
+			c.AbortWithStatus(204)
+			return
+		}
+
+		c.Next()
+	}
 }

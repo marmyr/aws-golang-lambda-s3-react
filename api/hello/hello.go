@@ -2,6 +2,7 @@ package hello
 
 import (
 	"example.com/someservice555/internal/routing"
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"net/http"
 )
