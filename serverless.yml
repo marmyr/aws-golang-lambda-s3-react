@@ -1,0 +1,40 @@
+service: someservice555
+
+provider:
+  name: aws
+  runtime: go1.x
+  stage: dev
+  region: us-east-1
+  memorySize: 128 # 1MB increments, minimum 128, affects pricing
+  environment:
+    ALLOWED_ORIGIN: ${ssm:/someservice555/config/allowed_origin}
+
+package:
+  exclude:
+    - ./**
+  include:
+    - ./bin/**
+
+# Frontend deploy config
+custom:
+  stage: ${opt:stage, self:provider.stage}
+  client:
+    bucketName: someservice555-frontend # Must be globally unique, if you're setting a custom domain, then use that. (ex: example.com)
+    distributionFolder: frontend/build
+
+# Endpoint config
+functions:
+  Hello:
+    handler: bin/hello
+    events:
+      - http:
+          path: /hello
+          method: get
+          cors: true # This allows OPTION requests to pass trough the AWS API Gateway
+
+
+# Frontend deploy plugin config
+plugins:
+  - serverless-finch
+resources:
+  - ${file(resources/s3-bucket.yml)}
