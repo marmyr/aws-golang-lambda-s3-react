@@ -3,10 +3,9 @@ module example.com/someservice555
 go 1.15
 
 require (
-	github.com/gin-gonic/gin v1.5.0
-	github.com/go-playground/validator/v10 v10.2.0 // indirect
-	github.com/golang/protobuf v1.3.3 // indirect
-	github.com/json-iterator/go v1.1.9 // indirect
-	github.com/mattn/go-isatty v0.0.12 // indirect
-	gopkg.in/yaml.v2 v2.2.8 // indirect
+	github.com/aws/aws-lambda-go v1.22.0
+	github.com/awslabs/aws-lambda-go-api-proxy v0.9.0
+	github.com/gin-gonic/gin v1.6.3
+	gopkg.in/go-playground/assert.v1 v1.2.1 // indirect
+	gopkg.in/go-playground/validator.v9 v9.29.1 // indirect
 )
