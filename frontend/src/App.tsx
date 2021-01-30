@@ -7,6 +7,7 @@ class App extends React.Component {
   state = {message: '', name: ''};
 
   callApi() {
+    // Remember to encode URL query parameters
     fetch(`${url}/hello?name=${encodeURIComponent(this.state.name)}`, {
         method: 'GET',
         headers: {
