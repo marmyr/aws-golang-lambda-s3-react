@@ -25,13 +25,19 @@ custom:
 # Endpoint config
 functions:
   Hello:
-    handler: bin/hello
+    handler: bin/lambda
     events:
       - http:
           path: /hello
           method: get
           cors: true # This allows OPTION requests to pass trough the AWS API Gateway
-
+  Welcome:
+    handler: bin/lambda
+    events:
+      - http:
+          path: /welcome
+          method: post
+          cors: true
 
 # Frontend deploy plugin config
 plugins:
