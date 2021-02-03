@@ -2,6 +2,7 @@ package main
 
 import (
 	"example.com/someservice555/api/hello"
+	"example.com/someservice555/api/welcome"
 	"example.com/someservice555/internal/routing"
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"
@@ -12,6 +13,7 @@ func main() {
 	engine := routing.Build()
 
 	routing.AddRoute(engine, hello.Path, hello.Method, hello.ProcessRequest)
+	routing.AddRoute(engine, welcome.Path, welcome.Method, welcome.ProcessRequest)
 
 	proxy := func(req events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
 		adapter := ginadapter.New(engine)

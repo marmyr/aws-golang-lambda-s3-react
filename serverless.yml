@@ -31,6 +31,10 @@ functions:
           path: /hello
           method: get
           cors: true # This allows OPTION requests to pass trough the AWS API Gateway
+      - http:
+          path: /welcome
+          method: get
+          cors: true
 
 
 # Frontend deploy plugin config
